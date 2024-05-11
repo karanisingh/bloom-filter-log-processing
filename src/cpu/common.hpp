@@ -16,6 +16,7 @@
 #define NUM_RULES   1
 
 // Defines the number of bits dedicated to a bloom filter containter
+// :"arbitrarily" pick 2^18 bits
 #define BLOOM_FILTER_SIZE   262144
 
 // Defines the number of bloom filters we want to accomodate for. Would

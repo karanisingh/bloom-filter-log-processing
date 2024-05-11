@@ -16,14 +16,14 @@ def generate_logs(output_file, num_entries, num_tasks=65):
     logs=[]
 
 
-    for _ in range(num_entries):
+    for i in range(num_entries):
         # Parent pid existing pid
         parent_pid = random.choice(list(pid_pool))
 
         # Unique child PID
-        child_pid = random.randint(1, 1000)
+        child_pid = random.randint(1, 10000)
         while child_pid in pid_pool:
-            child_pid = random.randint(1, 1000)
+            child_pid = random.randint(1, 10000)
 
         # Task ID 
         task_id = random.randint(1, num_tasks)
@@ -39,4 +39,4 @@ def generate_logs(output_file, num_entries, num_tasks=65):
 
 
 
-generate_logs(output_file=sys.argv[1], num_entries=sys.argv[2], num_tasks=sys.argv[3])
+generate_logs(output_file=sys.argv[1], num_entries=int(sys.argv[2]), num_tasks=int(sys.argv[3]))

@@ -1,13 +1,16 @@
-
+//main.cpp
 
 #include <fstream>
 #include <string>
 #include <cmath>
 #include <vector>
 #include <iostream>
+#include <thread>
+#include <chrono>
 
-#include "src/common.hpp"
-#include "src/log_processor.hpp"
+
+#include "src/cpu/common.hpp"
+#include "src/cpu/log_processor.hpp"
 
 
 
@@ -57,8 +60,12 @@ int main(int argc, char *argv[])
     struct log I;
     int p, c, t;
 
+
+    auto start = std::chrono::high_resolution_clock::now();
+    
     while (std::getline(input, line))
     {
+        //std::this_thread::sleep_for(std::chrono::milliseconds(10));
         PRINT("\nProcessing log: [" + line + "]")
 
         std::stringstream linestream(line);
@@ -89,6 +96,11 @@ int main(int argc, char *argv[])
 
         }
     }
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+
+    // Output the elapsed time
+    std::cout << "Time taken by CPU: process_log(): " << duration.count() << " milliseconds" << std::endl;
 
     std::cout << "Final Violations:" << std::endl;
     for(auto x: violations)

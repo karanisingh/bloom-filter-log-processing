@@ -2,6 +2,7 @@
 
 #include "log_processor.hpp"
 
+
 // log processor constructor
 log_processor::log_processor(struct rule r[NUM_RULES], uint32_t num_rules, uint32_t num_blooms)
 {
@@ -29,6 +30,8 @@ log_processor::log_processor(struct rule r[NUM_RULES], uint32_t num_rules, uint3
 
 struct log_result log_processor::ingress(struct log log)
 {
+    // static 
+
     uint32_t p = log.parent_pid;
     uint32_t c = log.child_pid;
     uint32_t t = log.task_id;
@@ -54,6 +57,10 @@ struct log_result log_processor::ingress(struct log log)
         // Check if process lineage in this bloom filter
         if (m_bloom_filters[i].contains(p))
         {
+            // Add child to process lineage
+            m_bloom_filters[i].add(c);
+
+            
             PRINT("\t\tProccess lineage found!")
             // If we have a process lineage, and we are a rule, report back
             if (m_rules[i].descendant == t)
@@ -66,8 +73,6 @@ struct log_result log_processor::ingress(struct log log)
                                                 m_rules[i].descendant);
             }
 
-            // Add child to process lineage
-            m_bloom_filters[i].add(c);
         }
     }
 
